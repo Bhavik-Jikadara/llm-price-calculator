@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LandingPage from "@/components/LandingPage/Landingpage";
+import { Analytics } from '@vercel/analytics/next';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,6 +20,7 @@ export default function Home() {
     <QueryClientProvider client={queryClient}>
       <main className="">
         <LandingPage />
+        <Analytics />
       </main>
     </QueryClientProvider>
   );
