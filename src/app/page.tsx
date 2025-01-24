@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import PriceCalculator from "@/components/PriceCalculator/PriceCalculator";
+import LandingPage from "@/components/LandingPage/Landingpage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,8 +17,8 @@ const queryClient = new QueryClient({
 export default function Home() {
   return (
     <QueryClientProvider client={queryClient}>
-      <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4 sm:p-8">
-        <PriceCalculator />
+      <main className="">
+        <LandingPage />
       </main>
     </QueryClientProvider>
   );
