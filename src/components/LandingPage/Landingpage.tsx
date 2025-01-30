@@ -2,14 +2,32 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Github, X, Check, Menu, Sun, Moon } from "lucide-react";
+import { ArrowRight, Github, X, Check, Menu, Twitter, Facebook, Linkedin } from "lucide-react";
 import PriceCalculator from "@/components/PriceCalculator/PriceCalculator";
 import { motion } from "framer-motion";
-import { useTheme } from '@/components/ThemeProvider/ThemeProvider';
 import { useState, useEffect } from 'react';
 
 const LandingPage = () => {
-    const { theme, toggleTheme } = useTheme();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // Simulate loading state
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-pulse">
+                    <div className="w-12 h-11 rounded-xl bg-gradient-to-br from-blue-600/50 to-purple-600/50" />
+                </div>
+            </div>
+        );
+    }
 
     const scrollToCalculator = () => {
         document.getElementById('calculator-section')?.scrollIntoView({ behavior: 'smooth' });
@@ -18,11 +36,15 @@ const LandingPage = () => {
     // Enhanced Animated background with particles
     const AnimatedBackground = () => {
         const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-        const particleCount = 50;
+        const particleCount = Math.min(20, Math.floor(window.innerWidth / 50)); // Responsive particle count
         const particles = Array.from({ length: particleCount });
+        const orbs = Array.from({ length: 3 }); // Reduced for better performance
 
         useEffect(() => {
+            let mounted = true;
+
             const updateDimensions = () => {
+                if (!mounted) return;
                 setDimensions({
                     width: window.innerWidth,
                     height: window.innerHeight
@@ -31,79 +53,110 @@ const LandingPage = () => {
 
             updateDimensions();
             window.addEventListener('resize', updateDimensions);
-            return () => window.removeEventListener('resize', updateDimensions);
+            
+            return () => {
+                mounted = false;
+                window.removeEventListener('resize', updateDimensions);
+            };
         }, []);
 
         return (
             <div className="fixed inset-0 -z-10 overflow-hidden">
-                {/* Base gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white to-purple-50/80 dark:from-violet-950/40 dark:via-gray-900 dark:to-cyan-950/40 transition-colors duration-500" />
+                {/* Enhanced base gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/90 via-white to-purple-50/90 animate-gradient" />
 
-                {/* Depth overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-rose-50/30 to-transparent dark:via-rose-900/10" />
-
-                {/* Animated particles */}
-                <div className="absolute inset-0">
-                    {dimensions.width > 0 && particles.map((_, index) => {
-                        const randomX = Math.random() * dimensions.width;
-                        const randomY = Math.random() * dimensions.height;
-
-                        return (
-                            <motion.div
-                                key={index}
-                                className="absolute w-1 h-1 bg-indigo-400/30 dark:bg-blue-500/20 rounded-full"
-                                animate={{
-                                    x: [randomX, Math.random() * dimensions.width],
-                                    y: [randomY, Math.random() * dimensions.height],
-                                }}
-                                transition={{
-                                    duration: Math.random() * 10 + 20,
-                                    repeat: Infinity,
-                                    ease: "linear"
-                                }}
-                            />
-                        );
-                    })}
+                {/* Animated mesh gradient */}
+                <div className="absolute inset-0 opacity-30">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(139,92,246,0.1),transparent_50%)]" />
                 </div>
+
+                {/* Floating orbs */}
+                {orbs.map((_, index) => (
+                    <motion.div
+                        key={`orb-${index}`}
+                        className="absolute rounded-full blur-3xl"
+                        style={{
+                            background: index % 2 === 0 
+                                ? 'linear-gradient(45deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1))'
+                                : 'linear-gradient(45deg, rgba(139,92,246,0.1), rgba(59,130,246,0.1))',
+                            width: Math.random() * 400 + 200,
+                            height: Math.random() * 400 + 200,
+                        }}
+                        animate={{
+                            x: [
+                                Math.random() * dimensions.width,
+                                Math.random() * dimensions.width
+                            ],
+                            y: [
+                                Math.random() * dimensions.height,
+                                Math.random() * dimensions.height
+                            ],
+                            scale: [1, 1.2, 1],
+                        }}
+                        transition={{
+                            duration: Math.random() * 20 + 20,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            ease: "easeInOut"
+                        }}
+                    />
+                ))}
+
+                {/* Enhanced particles */}
+                {dimensions.width > 0 && particles.map((_, index) => {
+                    const size = Math.random() * 4 + 2;
+                    return (
+                        <motion.div
+                            key={`particle-${index}`}
+                            className="absolute rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20"
+                            style={{
+                                width: size,
+                                height: size,
+                            }}
+                            initial={{ 
+                                x: Math.random() * dimensions.width,
+                                y: Math.random() * dimensions.height,
+                            }}
+                            animate={{
+                                x: [
+                                    Math.random() * dimensions.width,
+                                    Math.random() * dimensions.width
+                                ],
+                                y: [
+                                    Math.random() * dimensions.height,
+                                    Math.random() * dimensions.height
+                                ],
+                                opacity: [0.2, 0.8, 0.2],
+                            }}
+                            transition={{
+                                duration: Math.random() * 20 + 10,
+                                repeat: Infinity,
+                                repeatType: "reverse",
+                                ease: "linear"
+                            }}
+                        />
+                    );
+                })}
 
                 {/* Grid overlay */}
                 <div
-                    className="absolute inset-0"
+                    className="absolute inset-0 opacity-[0.02]"
                     style={{
-                        backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(79, 70, 229, 0.03) 1px, transparent 0)',
+                        backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(79, 70, 229, 0.1) 1px, transparent 0)',
                         backgroundSize: '40px 40px'
                     }}
                 />
-
-                {/* Animated gradient overlay */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{
-                        opacity: [0.1, 0.2, 0.1],
-                        scale: [1, 1.1, 1]
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                    className="absolute inset-0 bg-gradient-to-br from-blue-100/10 via-purple-100/10 to-pink-100/10 dark:from-blue-400/10 dark:via-purple-400/10 dark:to-pink-400/10"
-                />
-
-                {/* Subtle pattern overlay */}
-                <div className="absolute inset-0 opacity-20 mix-blend-overlay">
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-indigo-100/50 to-transparent dark:via-indigo-900/20" />
-                </div>
             </div>
         );
     };
 
     return (
-        <div className="min-h-screen flex flex-col relative bg-white dark:bg-gray-900 transition-colors duration-500">
+        <div className="min-h-screen flex flex-col relative bg-white">
             <AnimatedBackground />
 
             {/* Navigation */}
-            <nav className="border-b border-indigo-50 dark:border-gray-800 bg-white/70 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 transition-colors duration-500">
+            <nav className="border-b border-indigo-50 bg-white/70 backdrop-blur-md sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16 items-center">
                         <motion.div
@@ -120,19 +173,27 @@ const LandingPage = () => {
                         </motion.div>
 
                         <div className="hidden md:flex items-center gap-6">
-                            <Button variant="ghost" size="icon"
-                                className="hover:bg-blue-50 dark:hover:bg-blue-950 transition-colors"
-                                onClick={toggleTheme}
-                            >
-                                {theme === 'light' ?
-                                    <Moon className="w-5 h-5" /> :
-                                    <Sun className="w-5 h-5" />
-                                }
-                            </Button>
-                            <Button variant="ghost" size="icon" className="hover:bg-blue-50 dark:hover:bg-blue-950 transition-colors">
-                                <Github className="w-5 h-5" />
-                            </Button>
-                            <Button variant="ghost" size="icon" className="hover:bg-purple-50 dark:hover:bg-purple-950 transition-colors">
+                            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                                <Button variant="ghost" size="icon" className="hover:bg-blue-100 hover:scale-110 transition-transform">
+                                    <Github className="w-6 h-6 text-blue-600" />
+                                </Button>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                                <Button variant="ghost" size="icon" className="hover:bg-blue-100 hover:scale-110 transition-transform">
+                                    <Twitter className="w-6 h-6 text-blue-400" />
+                                </Button>
+                            </a>
+                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                                <Button variant="ghost" size="icon" className="hover:bg-blue-100 hover:scale-110 transition-transform">
+                                    <Facebook className="w-6 h-6 text-blue-700" />
+                                </Button>
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                                <Button variant="ghost" size="icon" className="hover:bg-blue-100 hover:scale-110 transition-transform">
+                                    <Linkedin className="w-6 h-6 text-blue-500" />
+                                </Button>
+                            </a>
+                            <Button variant="ghost" size="icon" className="hover:bg-purple-50">
                                 <X className="w-5 h-5" />
                             </Button>
                             <Button
@@ -151,7 +212,7 @@ const LandingPage = () => {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative overflow-hidden min-h-[80vh] flex items-center">
+            <section className="relative overflow-hidden min-h-[80vh] flex items-center backdrop-blur-[2px]">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -164,13 +225,13 @@ const LandingPage = () => {
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ delay: 0.2 }}
                         >
-                            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-purple-100 dark:border-purple-900 rounded-full px-6 py-2 text-sm text-gray-600 dark:text-gray-300 shadow-sm">
+                            <div className="bg-white/80 backdrop-blur-md border border-purple-100 rounded-full px-6 py-2 text-sm text-gray-600 shadow-sm">
                                 ✨ Now supporting major AI providers
                             </div>
                         </motion.div>
 
                         <motion.h1
-                            className="text-6xl md:text-7xl font-bold"
+                            className="text-6xl md:text-7xl font-bold leading-tight"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
@@ -185,7 +246,7 @@ const LandingPage = () => {
                         </motion.h1>
 
                         <motion.p
-                            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+                            className="text-xl text-gray-600 max-w-2xl mx-auto"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.6 }}
@@ -213,8 +274,8 @@ const LandingPage = () => {
             </section>
 
             {/* Stats Section */}
-            <section className="border-y border-indigo-50 dark:border-gray-800 bg-white/80 dark:bg-gray-800/90 backdrop-blur-md relative transition-colors duration-500">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-transparent to-purple-50/50 dark:from-blue-950/50 dark:to-purple-950/50" />
+            <section className="border-y border-indigo-50 bg-white/80 relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-transparent to-purple-50/50" />
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         {[
@@ -228,12 +289,12 @@ const LandingPage = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
-                                className="text-center p-6 rounded-xl bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-all"
+                                className="text-center p-6 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100 shadow-sm hover:shadow-md transition-all"
                             >
                                 <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                     {stat.value}
                                 </div>
-                                <div className="text-sm text-gray-600 dark:text-gray-400 mt-2">{stat.label}</div>
+                                <div className="text-sm text-gray-600 mt-2">{stat.label}</div>
                             </motion.div>
                         ))}
                     </div>
@@ -247,11 +308,11 @@ const LandingPage = () => {
                         <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             Start Calculating
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                        <p className="text-gray-600 max-w-2xl mx-auto">
                             Get instant token counts and cost estimates for your AI projects
                         </p>
                     </div>
-                    <div className="bg-white/90 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-xl border border-indigo-100/50 dark:border-gray-800 p-8 transition-colors duration-500">
+                    <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-indigo-100 p-8">
                         <PriceCalculator />
                     </div>
                 </div>
@@ -264,7 +325,7 @@ const LandingPage = () => {
                         <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             Everything You Need
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                        <p className="text-gray-600 max-w-2xl mx-auto">
                             Comprehensive tools for AI cost management
                         </p>
                     </div>
@@ -291,15 +352,15 @@ const LandingPage = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
-                                className="p-8 rounded-xl bg-white/90 dark:bg-gray-800/80 backdrop-blur-md border border-indigo-100/50 dark:border-gray-800 shadow-lg hover:shadow-xl transition-all"
+                                className="p-8 rounded-xl bg-white/90 backdrop-blur-md border border-indigo-100 shadow-lg hover:shadow-xl transition-all"
                             >
                                 <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                     {feature.title}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-300 mb-6">{feature.description}</p>
+                                <p className="text-gray-600 mb-6">{feature.description}</p>
                                 <ul className="space-y-3">
                                     {feature.features.map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
+                                        <li key={i} className="flex items-center gap-3 text-sm text-gray-600">
                                             <div className="w-5 h-5 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
                                                 <Check className="w-3 h-3 text-white" />
                                             </div>
@@ -314,7 +375,7 @@ const LandingPage = () => {
             </section>
 
             {/* Footer */}
-            <footer className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-t dark:border-gray-800 transition-colors duration-500">
+            <footer className="bg-white/90 border-t">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
                         <div className="col-span-2">
@@ -326,14 +387,14 @@ const LandingPage = () => {
                                     Calculator
                                 </span>
                             </div>
-                            <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+                            <p className="text-sm text-gray-600 mb-6">
                                 The most accurate token calculator for modern AI models
                             </p>
                             <div className="flex gap-4">
-                                <Button variant="ghost" size="icon" className="hover:bg-blue-50 dark:hover:bg-blue-950 transition-colors">
+                                <Button variant="ghost" size="icon" className="hover:bg-blue-50">
                                     <Github className="w-5 h-5" />
                                 </Button>
-                                <Button variant="ghost" size="icon" className="hover:bg-purple-50 dark:hover:bg-purple-950 transition-colors">
+                                <Button variant="ghost" size="icon" className="hover:bg-purple-50">
                                     <X className="w-5 h-5" />
                                 </Button>
                             </div>
@@ -356,9 +417,9 @@ const LandingPage = () => {
                                 <h3 className="font-semibold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                     {section.title}
                                 </h3>
-                                <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                                <ul className="space-y-3 text-sm text-gray-600">
                                     {section.links.map((link, i) => (
-                                        <li key={i} className="hover:text-gray-900 dark:hover:text-gray-100 cursor-pointer transition-colors">
+                                        <li key={i} className="hover:text-gray-900 cursor-pointer transition-colors">
                                             {link}
                                         </li>
                                     ))}
@@ -366,8 +427,8 @@ const LandingPage = () => {
                             </div>
                         ))}
                     </div>
-                    <div className="border-t dark:border-gray-700 mt-12 pt-8 text-center">
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                    <div className="border-t mt-12 pt-8 text-center">
+                        <p className="text-sm text-gray-600">
                             © 2025 LLM Calculator. All rights reserved.
                         </p>
                     </div>

@@ -27,31 +27,6 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
-
-  .dark {
-    /* Dark mode - enhanced colors */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    /* Enhanced dark gradients */
-    --gradient-primary: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-    --gradient-secondary: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
-
-    /* Card and surface colors */
-    --surface-light: 217.2 32.6% 12%;
-    --surface-default: 222.2 84% 4.9%;
-    --surface-raised: 222.2 84% 6.9%;
-
-    /* Border colors */
-    --border-light: 217.2 32.6% 17.5%;
-    --border-default: 215 20.2% 65.1%;
-
-    /* Shadow colors - enhanced for dark mode */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-default: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-  }
 }
 
 /* Enhanced transitions */
@@ -65,38 +40,26 @@
     @apply bg-white/80 backdrop-blur-md border border-white/20;
   }
 
-  .glass-dark {
-    @apply bg-gray-900/80 backdrop-blur-md border border-gray-700/20;
-  }
-
   /* Gradient text utilities */
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r;
   }
 
   .gradient-text-primary {
-    @apply from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400;
+    @apply from-blue-600 to-purple-600;
   }
 
   .gradient-text-secondary {
-    @apply from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400;
+    @apply from-purple-600 to-indigo-600;
   }
-}
-
-/* Enhanced dark mode optimizations */
-.dark .bg-glass {
-  @apply bg-gray-900/90;
-  backdrop-filter: blur(12px);
-}
-
-.dark .border-theme {
-  @apply border-gray-800/60;
 }
 
 /* Animation utilities */
 .animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient 8s ease infinite;
+  animation: gradient 15s ease infinite;
+  background-size: 400% 400%;
+  will-change: background-position;
+  transform: translateZ(0); /* Hardware acceleration */
 }
 
 @keyframes gradient {
@@ -110,5 +73,24 @@
 
   100% {
     background-position: 0% 50%;
+  }
+}
+
+/* Add smooth transition for background elements */
+.bg-gradient-to-br,
+.bg-gradient-to-r {
+  transition: background-position 0.3s ease-out;
+  will-change: background-position;
+}
+
+/* Optimize animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient {
+    animation: none;
+  }
+  
+  .motion-div {
+    transition: none !important;
+    animation: none !important;
   }
 }
