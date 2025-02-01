@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Github, X, Check, Menu, Twitter, Facebook, Linkedin, Instagram, Youtube } from "lucide-react";
+import { ArrowRight, Github, X, Check, Menu, Facebook, Linkedin, Instagram, Youtube } from "lucide-react";
 import PriceCalculator from "@/components/PriceCalculator/PriceCalculator";
 import { motion } from "framer-motion";
 import { useState, useEffect } from 'react';
