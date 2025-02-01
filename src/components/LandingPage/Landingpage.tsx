@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Github, X, Check, Menu, Twitter, Facebook, Linkedin } from "lucide-react";
+import { ArrowRight, Github, X, Check, Menu, Twitter, Facebook, Linkedin, Instagram, Youtube } from "lucide-react";
 import PriceCalculator from "@/components/PriceCalculator/PriceCalculator";
 import { motion } from "framer-motion";
 import { useState, useEffect } from 'react';
+import AnimatedSquares from './AnimatedSquares'; // Adjust the path if necessary
 
 const LandingPage = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -173,29 +174,36 @@ const LandingPage = () => {
                         </motion.div>
 
                         <div className="hidden md:flex items-center gap-6">
-                            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                                <Button variant="ghost" size="icon" className="hover:bg-blue-100 hover:scale-110 transition-transform">
-                                    <Github className="w-6 h-6 text-blue-600" />
-                                </Button>
+                            <a href="https://github.com/Bhavik-Jikadara" target="_blank" rel="noopener noreferrer">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center">
+                                    <Github className="w-5 h-5 text-white" />
+                                </div>
                             </a>
-                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                                <Button variant="ghost" size="icon" className="hover:bg-blue-100 hover:scale-110 transition-transform">
-                                    <Twitter className="w-6 h-6 text-blue-400" />
-                                </Button>
+                            <a href="https://x.com/Bhavikjikadara1" target="_blank" rel="noopener noreferrer">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-400 flex items-center justify-center">
+                                    <X className="w-5 h-5 text-white" />
+                                </div>
                             </a>
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                                <Button variant="ghost" size="icon" className="hover:bg-blue-100 hover:scale-110 transition-transform">
-                                    <Facebook className="w-6 h-6 text-blue-700" />
-                                </Button>
+                            <a href="https://www.facebook.com/Bhavikjikadara07/" target="_blank" rel="noopener noreferrer">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-700 to-blue-600 flex items-center justify-center">
+                                    <Facebook className="w-5 h-5 text-white" />
+                                </div>
                             </a>
-                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                                <Button variant="ghost" size="icon" className="hover:bg-blue-100 hover:scale-110 transition-transform">
-                                    <Linkedin className="w-6 h-6 text-blue-500" />
-                                </Button>
+                            <a href="https://linkedin.com/in/bhavikjikadara" target="_blank" rel="noopener noreferrer">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-400 flex items-center justify-center">
+                                    <Linkedin className="w-5 h-5 text-white" />
+                                </div>
                             </a>
-                            <Button variant="ghost" size="icon" className="hover:bg-purple-50">
-                                <X className="w-5 h-5" />
-                            </Button>
+                            <a href="https://instagram.com/bhavikjikadara" target="_blank" rel="noopener noreferrer">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center">
+                                    <Instagram className="w-5 h-5 text-white" />
+                                </div>
+                            </a>
+                            <a href="https://www.youtube.com/@bhavikjikadara" target="_blank" rel="noopener noreferrer">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+                                    <Youtube className="w-5 h-5 text-white" />
+                                </div>
+                            </a>
                             <Button
                                 className="gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md"
                                 onClick={scrollToCalculator}
@@ -213,6 +221,7 @@ const LandingPage = () => {
 
             {/* Hero Section */}
             <section className="relative overflow-hidden min-h-[80vh] flex items-center backdrop-blur-[2px]">
+                <AnimatedSquares />
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -225,28 +234,28 @@ const LandingPage = () => {
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ delay: 0.2 }}
                         >
-                            <div className="bg-white/80 backdrop-blur-md border border-purple-100 rounded-full px-6 py-2 text-sm text-gray-600 shadow-sm">
+                            <div className="bg-white/90 backdrop-blur-md border border-purple-200 rounded-full px-6 py-2 text-sm text-gray-700 shadow-md">
                                 ✨ Now supporting major AI providers
                             </div>
                         </motion.div>
 
                         <motion.h1
-                            className="text-6xl md:text-7xl font-bold leading-tight"
+                            className="text-6xl md:text-7xl font-bold leading-tight text-white"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
                         >
-                            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
                                 Smart Token Calculator
                             </span>
                             <br />
-                            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
                                 for Modern AI
                             </span>
                         </motion.h1>
 
                         <motion.p
-                            className="text-xl text-gray-600 max-w-2xl mx-auto"
+                            className="text-xl text-white max-w-2xl mx-auto"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.6 }}
